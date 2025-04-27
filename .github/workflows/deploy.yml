@@ -1,22 +1,28 @@
-image: alpine:latest
+name: Deploy to GitHub Pages
 
-stages:
-  - verify
-  - deploy
+on:
+  push:
+    branches:
+      - main
 
-verify_index:
-  stage: verify
-  script:
-    - if [ ! -f public/index.html ]; then echo "Erro: arquivo index.html não encontrado na pasta public"; exit 1; fi
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
 
-pages:
-  stage: deploy
-  script:
-    - echo "Publicando site..."
-  artifacts:
-    paths:
-      - public
-  only:
-    - main
-  needs:
-    - verify_index
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar GitHub Pages
+        uses: actions/configure-pages@v4
+
+      - name: Publicar site
+        run: echo "Publicando site..."
+
+      - name: Upload para GitHub Pages
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: ./public
+
+      - name: Deploy para GitHub Pages
+        uses: actions/deploy-pages@v2
