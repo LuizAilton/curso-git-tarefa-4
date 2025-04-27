@@ -1,11 +1,22 @@
 image: alpine:latest
 
+stages:
+  - verify
+  - deploy
+
+verify_index:
+  stage: verify
+  script:
+    - if [ ! -f public/index.html ]; then echo "Erro: arquivo index.html não encontrado na pasta public"; exit 1; fi
+
 pages:
-   stage: deploy
-   script:
-      - echo “Publicando site...”
-   artifacts:
-      paths:
-         - public
-   only:
-      - main
+  stage: deploy
+  script:
+    - echo "Publicando site..."
+  artifacts:
+    paths:
+      - public
+  only:
+    - main
+  needs:
+    - verify_index
