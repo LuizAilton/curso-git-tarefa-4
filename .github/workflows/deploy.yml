@@ -35,9 +35,9 @@ jobs:
         uses: actions/configure-pages@v4
 
       - name: Upload para GitHub Pages
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v2  # Usando a versão correta
         with:
-          path: ./ 
+          path: ./  # Aqui indicamos a raiz do repositório
 
       - name: Deploy para GitHub Pages
         uses: actions/deploy-pages@v2
